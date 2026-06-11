@@ -231,10 +231,11 @@ input{
 
     .uploadResume{
         flex-direction: column;
+        gap: 15px;
         width: 100%;
     }
 
-    .resumeBlock{
+    .resumeBlock {
         width: 100%;
         box-sizing: border-box;
         padding: 15px;

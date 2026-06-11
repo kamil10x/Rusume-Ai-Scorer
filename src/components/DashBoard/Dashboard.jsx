@@ -5,6 +5,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import Skeleton from '@mui/material/Skeleton';
+import WithAuthHOC from '../../utils/HOC/withAuthHOC';
 
 const Dashboard = () => {
   return (
@@ -79,7 +80,7 @@ const Dashboard = () => {
         <Skeleton
           variant="rectangular"
           sx={{ borderRadius: "20px" }}
-          width={280}
+          width={245}
           height={280}
           />
     
@@ -91,4 +92,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default WithAuthHOC(Dashboard)

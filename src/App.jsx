@@ -8,6 +8,8 @@ import {Routes, Route} from 'react-router-dom';
 import Dashboard from './components/DashBoard/Dashboard'
 import History from './components/History/History'
 import Admin from './components/Admin/Admin'
+import Login from './components/Login/Login'
+
 //import { Link } from 'react-router-dom';
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
     <div className='App'>
       <SideBar />
       <Routes>
+        <Route path = '/' element={<Login/>} />
         <Route path='/dashboard' element={<Dashboard/>}/>
         <Route path='/history' element={<History/>}/>
         <Route path='/admin' element={<Admin/>} />
