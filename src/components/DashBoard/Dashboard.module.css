@@ -207,6 +207,10 @@ input{
     .Dashboard{
         flex-direction: column;
         padding: 20px;
+    }   
+
+    .inputBtn{
+        width: 60vw;
     }
 
     .DashboardLeft{

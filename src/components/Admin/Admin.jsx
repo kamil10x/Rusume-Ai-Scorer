@@ -1,77 +1,78 @@
-import React from 'react'
-import styles from './Admin.module.css';
-import { Skeleton } from '@mui/material';
-import WithAuthHOC from '../../utils/HOC/withAuthHOC';
+import React, { useState, useEffect } from "react";
+import styles from "./Admin.module.css";
+import { Skeleton } from "@mui/material";
+import WithAuthHOC from "../../utils/HOC/withAuthHOC";
+import axios from "../../utils/axios";
 
 const Admin = () => {
+  const [data, setData] = useState([]);
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+  const fetchAllData = async () => {
+    setLoader(true);
+
+    try {
+      const results = await axios.get("/api/resume/get/admin");
+      setData(results.data.resumes);
+    } catch (err) {
+      console.log(err);
+      alert("Something Went wrong");
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  fetchAllData();
+}, []);
+
   return (
     <div className={styles.Admin}>
       <div className={styles.AdminBlock}>
+        {loader && (
+          <>
+            <Skeleton
+              variant="rectangular"
+              width={260}
+              height={260}
+              sx={{ borderRadius: "20px" }}
+            />
+            <Skeleton
+              variant="rectangular"
+              width={260}
+              height={260}
+              sx={{ borderRadius: "20px" }}
+            />
+            <Skeleton
+              variant="rectangular"
+              width={260}
+              height={260}
+              sx={{ borderRadius: "20px" }}
+            />
+            <Skeleton
+              variant="rectangular"
+              width={260}
+              height={260}
+              sx={{ borderRadius: "20px" }}
+            />
+          </>
+        )}
 
-        <Skeleton
-          variant="rectangular"
-          width={260}
-          height={260}
-          sx={{ borderRadius: "20px" }}
-        />
-
-        <div className={styles.AdminCard}>
-          <h3>Kamil</h3>
-          <p style={{color:"blue"}}>shaikkamil@gmail.com</p>
-          <h4>Score: 73%</h4> 
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, ullam ea. Ut suscipit quibusdam, numquam, aliquam quas expedita architecto nisi exercitationem corporis officiis blanditiis, eligendi maxime atque sapiente molestiae saepe!
-          </p>
-        </div>
-
-        <div className={styles.AdminCard}>
-          <h3>Kamil</h3>
-          <p style={{color:"blue"}}>shaikkamil@gmail.com</p>
-          <h4>Score: 73%</h4> 
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, ullam ea. Ut suscipit quibusdam, numquam, aliquam quas expedita architecto nisi exercitationem corporis officiis blanditiis, eligendi maxime atque sapiente molestiae saepe!
-          </p>
-        </div>
-
-        <div className={styles.AdminCard}>
-          <h3>Kamil</h3>
-          <p style={{color:"blue"}}>shaikkamil@gmail.com</p>
-          <h4>Score: 73%</h4> 
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, ullam ea. Ut suscipit quibusdam, numquam, aliquam quas expedita architecto nisi exercitationem corporis officiis blanditiis, eligendi maxime atque sapiente molestiae saepe!
-          </p>
-        </div>
-
-        <div className={styles.AdminCard}>
-          <h3>Kamil</h3>
-          <p style={{color:"blue"}}>shaikkamil@gmail.com</p>
-          <h4>Score: 73%</h4> 
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, ullam ea. Ut suscipit quibusdam, numquam, aliquam quas expedita architecto nisi exercitationem corporis officiis blanditiis, eligendi maxime atque sapiente molestiae saepe!
-          </p>
-        </div>
-
-        <div className={styles.AdminCard}>
-          <h3>Kamil</h3>
-          <p style={{color:"blue"}}>shaikkamil@gmail.com</p>
-          <h4>Score: 73%</h4> 
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, ullam ea. Ut suscipit quibusdam, numquam, aliquam quas expedita architecto nisi exercitationem corporis officiis blanditiis, eligendi maxime atque sapiente molestiae saepe!
-          </p>
-        </div>
-        
-        <div className={styles.AdminCard}>
-          <h3>Kamil</h3>
-          <p style={{color:"blue"}}>shaikkamil@gmail.com</p>
-          <h4>Score: 73%</h4> 
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, ullam ea. Ut suscipit quibusdam, numquam, aliquam quas expedita architecto nisi exercitationem corporis officiis blanditiis, eligendi maxime atque sapiente molestiae saepe!
-          </p>
-        </div>
-
+        {data.map((item, index) => {
+          return (
+            <div className={styles.AdminCard}>
+              <h3>{item.user?.name}</h3>
+              <p style={{ color: "blue" }}>{item?.user?.email}</p>
+              <h4>Score: {item.score}%</h4>
+              <p>
+                {item.feedback}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WithAuthHOC(Admin)
+export default WithAuthHOC(Admin);

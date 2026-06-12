@@ -7,6 +7,7 @@ import { auth, provider } from '../../utils/firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { AuthContext } from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../utils/axios';
 
 const Login = () => {
     
@@ -15,6 +16,8 @@ const Login = () => {
     const  handleLogin = async()=>{
         try{
             const result = await signInWithPopup(auth, provider);
+            console.log(result.user.photoURL);
+
             const user = result.user;
 
             const userData = {
@@ -23,17 +26,25 @@ const Login = () => {
                 photoUrl:user.photoURL
             }
 
+            await axios.post('/api/user', userData).then((response) =>{
+                setUserInfo(response.data.user);
+                localStorage.setItem("userInfo", JSON.stringify(response.data.user))
+
+            }).catch(err =>{
+                console.log(err)
+            }) 
+
             setLogin(true);
-            setUserInfo(userData);
+            //setUserInfo(userData);
             localStorage.setItem("isLogin", true);
-            localStorage.setItem("userInfo", JSON.stringify(userData))
+            //localStorage.setItem("userInfo", JSON.stringify(response.data.user))
             navigate('/dashboard');
         }catch(err){
             alert("Error occured");
             console.log(err);
         }
-   }
-  return (
+    }
+    return (
     <div className={styles.Login}>
         <div className={styles.LoginCard}> 
             <div className={styles.LoginCardTitle}>
@@ -47,9 +58,9 @@ const Login = () => {
             </div>
 
         </div>
-      
+    
     </div>
-  )
+    )
 }
 
 
