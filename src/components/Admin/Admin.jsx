@@ -3,6 +3,7 @@ import styles from "./Admin.module.css";
 import { Skeleton } from "@mui/material";
 import WithAuthHOC from "../../utils/HOC/withAuthHOC";
 import axios from "../../utils/axios";
+import ReactMarkdown from "react-markdown";
 
 const Admin = () => {
   const [data, setData] = useState([]);
@@ -58,18 +59,18 @@ const Admin = () => {
           </>
         )}
 
-        {data.map((item, index) => {
-          return (
-            <div className={styles.AdminCard}>
-              <h3>{item.user?.name}</h3>
-              <p style={{ color: "blue" }}>{item?.user?.email}</p>
-              <h4>Score: {item.score}%</h4>
-              <p>
-                {item.feedback}
-              </p>
-            </div>
-          );
-        })}
+        {data.map((item) => {
+  return (
+    <div key={item._id} className={styles.AdminCard}>
+      <h3>{item.user?.name}</h3>
+      <p style={{ color: "blue" }}>{item?.user?.email}</p>
+      <h4>Score: {item.score}%</h4>
+      <ReactMarkdown>
+  {item.feedback}
+</ReactMarkdown>
+    </div>
+  );
+})}
       </div>
     </div>
   );
